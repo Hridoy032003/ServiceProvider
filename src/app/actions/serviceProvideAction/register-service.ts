@@ -61,11 +61,7 @@ export async function registerService(formData: FormData) {
 
     revalidatePath("/serviceProvider/serviceProviderRegister/services");
 
-    // Note: toast() and redirect() may not work as expected together in server actions.
-    // A redirect is often sufficient.
-    // toast.success("Service registered successfully!");
     
     return service;
-    // You might want to redirect the user after successful creation
-    // redirect("/some-success-page");
+ 
 }

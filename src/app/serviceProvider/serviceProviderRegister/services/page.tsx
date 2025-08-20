@@ -31,11 +31,13 @@ interface ServiceSchema {
 const serviceSchema = z.object({
   serviceName: z.string().min(1, "Service name cannot be empty."),
   serviceDescription: z.string().min(1, "Service description cannot be empty."),
-  servicePrice: z
-    .number("Price must be a number.")
+servicePrice: z
+    .coerce.number({ invalid_type_error: "Price must be a number." })
     .positive("Service price must be a positive number."),
+
+  // Use z.coerce.number() for duration
   serviceDuration: z
-    .number("Duration must be a number.")
+    .coerce.number({ invalid_type_error: "Duration must be a number." })
     .int("Duration must be an integer.")
     .positive("Duration must be a positive number of minutes."),
   serviceImage: z.string().url("Please enter a valid URL for the image."),
@@ -71,7 +73,7 @@ const ServiceRegistrationPage = () => {
         await registerService(formData);
         toast.success("Service registered successfully!");
         form.reset();
-        router.push("/service-provider/dashboard");
+        router.push("/service-provider/dashboard/");
       } catch (error) {
         const errorMessage =
           error instanceof Error ? error.message : "An unknown error occurred.";
