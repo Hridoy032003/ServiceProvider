@@ -1,17 +1,21 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   images: {
     remotePatterns: [
+      // Your existing pattern for Google
       {
         protocol: 'https',
         hostname: 'lh3.googleusercontent.com',
-        port: '',
         pathname: '/a/**',
       },
-     
+      // The new pattern for Pexels
+      {
+        protocol: 'https',
+        hostname: 'images.pexels.com',
+        pathname: '/**', // Use /** to allow any image path from this host
+      },
     ],
   },
 };
 
-export default nextConfig;
+module.exports = nextConfig;
