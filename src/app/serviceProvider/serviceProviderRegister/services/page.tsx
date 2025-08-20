@@ -31,19 +31,23 @@ interface ServiceSchema {
 const serviceSchema = z.object({
   serviceName: z.string().min(1, "Service name cannot be empty."),
   serviceDescription: z.string().min(1, "Service description cannot be empty."),
-servicePrice: z
-    .coerce.number({ invalid_type_error: "Price must be a number." })
+
+  // FIX: Change z.number() to z.coerce.number()
+  servicePrice: z.coerce
+    .number({ invalid_type_error: "Price must be a number." }) // Use this object for custom error messages
     .positive("Service price must be a positive number."),
 
-  // Use z.coerce.number() for duration
-  serviceDuration: z
-    .coerce.number({ invalid_type_error: "Duration must be a number." })
+  // FIX: Change z.number() to z.coerce.number()
+  serviceDuration: z.coerce
+    .number({ invalid_type_error: "Duration must be a number." })
     .int("Duration must be an integer.")
     .positive("Duration must be a positive number of minutes."),
+
   serviceImage: z.string().url("Please enter a valid URL for the image."),
 });
 
-export type TServiceSchema = ServiceSchema;
+// This part is already correct!
+export type TServiceSchema = z.infer<typeof serviceSchema>;
 
 const ServiceRegistrationPage = () => {
   const [isPending, startTransition] = useTransition();
@@ -73,7 +77,7 @@ const ServiceRegistrationPage = () => {
         await registerService(formData);
         toast.success("Service registered successfully!");
         form.reset();
-        router.push("/service-provider/dashboard/");
+        router.push("/service-provider/dashboard");
       } catch (error) {
         const errorMessage =
           error instanceof Error ? error.message : "An unknown error occurred.";
