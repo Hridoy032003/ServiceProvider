@@ -23,6 +23,11 @@ const page = async() => {
            name: true, 
          },
        },
+       serviceProvider: {
+         select: {
+           businessName: true, 
+         },
+       },
      },
      orderBy: {
        date: "desc", 

@@ -1,8 +1,8 @@
 import React from "react";
-// Importing icons for a better visual experience
+
 import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaUser } from "react-icons/fa";
 
-// Define a TypeScript interface for the serviceProvider prop for type safety
+
 interface ServiceProvider {
   id: string;
   businessName: string;
@@ -32,10 +32,10 @@ console.log(" sevicerviceProvider", sevicerviceProvider);
 
   return (
 
-    <div className="max-w-2xl  my-10 bg-white rounded-xl shadow-lg overflow-hidden min-w-150">
+    <div className="max-w-2xl  my-10  rounded-xl shadow-lg overflow-hidden min-w-100">
   
-      <div className="bg-black p-6">
-        <h1 className="text-3xl font-bold text-white capitalize text-center">
+      <div className="bg-black p-6 container mx-auto ">
+        <h1 className="lg:text-3xl text-xl md:text-2xl font-bold text-white capitalize text-center">
           {sevicerviceProvider.businessName}
         </h1>
       </div>

@@ -35,7 +35,7 @@ const Navbar = async () => {
         >
           Providers
         </Link>
-        <Link href={"/"} className="hover:underline underline-offset-4">
+        <Link href={"/contectUs"} className="hover:underline underline-offset-4">
           ContectUs
         </Link>
       </div>

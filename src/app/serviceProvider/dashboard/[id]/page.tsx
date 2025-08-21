@@ -50,7 +50,7 @@ async function getProviderBookings() {
     service: {
       ...booking.service,
     
-      price: booking.service.price.toNumber(),
+      price: booking.service.price,
     },
   }));
 
@@ -65,8 +65,8 @@ const DashboardPage = async () => {
 
 
   return (
-    <div className="container mx-auto py-10">
-      <div className="flex flex-col md:flex-row gap-10 justify-between ">
+    <div className=" mx-auto py-10">
+      <div className="flex flex-col lg:flex-row  justify-center  px-10 lg:gap-50 items-center gap-2">
         <ServiceProviderInfromation
           sevicerviceProvider={bookings[0].serviceProvider}
         />

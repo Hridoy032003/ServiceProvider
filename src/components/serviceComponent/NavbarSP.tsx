@@ -3,9 +3,10 @@ import Image from 'next/image'
 import Link from 'next/link';
 import { Button } from '../ui/button';
 import { getAuthSession } from '@/lib/auth';
+import LogOut from '../LogOut';
 const NavbarSP =async () => {
   const session = await getAuthSession();
-  console.log(session);
+ 
   return (
     <div className=" flex  border-b border-gray-200 border-opacity-60  p-2 lg:px-30 md:px-10 px-5 justify-between items-center">
       <Link
@@ -23,9 +24,10 @@ const NavbarSP =async () => {
           SPARKLE & SHINE
         </h1>
       </Link>
+   
       {(session?.user?.role === "service_provider" &&
         session?.user?.hasAccess === true && (
-          <div className=" gap-4 hidden md:flex lg:flex">
+          <div className=" gap-4 flex flex-row md:flex lg:flex items-center justify-center">
             <Link
               href={`/serviceProvider`}
               className="hover:underline underline-offset-4"
@@ -38,7 +40,7 @@ const NavbarSP =async () => {
             >
              Dashboard
             </Link>
-           
+              <LogOut/>
           </div>
         )) ||
         (session?.user?.role === "service_provider" &&

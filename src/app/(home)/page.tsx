@@ -1,10 +1,11 @@
-import Footer from "@/components/Footer";
+
 import ServiceCard from "@/components/globle-component/ServiceCard";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { services } from "@/helper/service";
 import { accrodiandata } from "@/utils/accrodian";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
 
@@ -16,7 +17,8 @@ export default function Home() {
           <p className="text-gray-400 mb-2">
             the best we get to you on time just book now{" "}
           </p>
-          <Button variant={"outline"}>Book Now</Button>
+          <Link href="/customer/providers"> <Button variant={"outline"}>Book Now</Button></Link>
+          
         </div>
       </div>
       <div className="bg-blue-500 -mt-20 flex justify-between items-center min-h-50 rounded-2xl p-5 lg:px-50  flex-col lg:flex-row gap-15">
@@ -184,7 +186,7 @@ export default function Home() {
           </div>
         ))}
       </div>
-      <Footer/>
+  
     </>
   );
 }

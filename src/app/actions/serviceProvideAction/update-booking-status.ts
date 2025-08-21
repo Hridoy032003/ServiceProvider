@@ -3,7 +3,7 @@
 "use server";
 
 import { z } from "zod";
-import { revalidatePath } from "next/cache";
+
 import { db } from "@/utils/db";
 
 const bookingStatusSchema = z.enum(["pending", "confrimd", "cancel"]);
@@ -30,7 +30,7 @@ export async function updateBookingStatus(
     });
 
     
-    revalidatePath("/dashboard"); 
+   
     return { success: true };
 
   } catch (error) {

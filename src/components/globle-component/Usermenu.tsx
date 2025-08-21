@@ -35,18 +35,16 @@ const Usermenu = ({ session }: Props ) => {
               <Link href="/">Home</Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <Link href="/coustomer/provideras">Providers</Link>
+              <Link href="/customer/providers">Providers</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Link href="/AboutUs">AboutUs</Link>
-            </DropdownMenuItem>
+          
           </div>
           <DropdownMenuSeparator />
           <DropdownMenuItem>
             <Link href="/orders">Orders</Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Link href="/Contact">Contect</Link>
+            <Link href="/contectUs">About Us</Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
             {session?.user?.role === "null" ? (
@@ -60,7 +58,6 @@ const Usermenu = ({ session }: Props ) => {
                 Dashboard ServiceProvider
               </Link>
             )}
-          
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem>

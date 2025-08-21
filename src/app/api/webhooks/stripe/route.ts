@@ -3,6 +3,7 @@ import { headers } from 'next/headers';
 import { db } from '@/utils/db';
 import Stripe from 'stripe';
 import { getAuthSession } from '@/lib/auth';
+import { redirect } from 'next/navigation';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 const webhookSecret = process.env.STRIPE_WEBHOOCK_SECRET!;
@@ -51,7 +52,7 @@ console.log(" user", user);
             stripeCustomerId: checkoutSession.customer as string,
           },
         });
-        
+        redirect("/serviceProvider/dashboard/"+user.id);
         break;
       }
 

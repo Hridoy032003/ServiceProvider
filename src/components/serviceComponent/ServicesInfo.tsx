@@ -30,8 +30,8 @@ const ServicesInfo = async ({ serviceProvider }: ServicesInfoProps) => {
   });
 
   return (
-    <div className="my-4 sm:p-6 md:p-8 rounded-lg bg-white shadow-lg mt-6 min-w-150 ">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 border-b pb-4">
+    <div className="my-4 sm:p-6 md:p-8 rounded-lg bg-white shadow-lg mt-6   ">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 border-b pb-4 lg:gap-30">
         <h2 className="text-3xl font-bold text-gray-800 mb-3 sm:mb-0">
           My Services
         </h2>
@@ -46,7 +46,7 @@ const ServicesInfo = async ({ serviceProvider }: ServicesInfoProps) => {
             {allServices.map((service) => (
               <div
                 key={service.id}
-                className="flex flex-col sm:flex-row justify-between items-start border rounded-lg p-4 bg-gray-50 transition-all hover:bg-white hover:shadow-md"
+                className="flex flex-col sm:flex-row justify-between items-start border rounded-lg p-4 bg-gray-50 transition-all hover:bg-white hover:shadow-md max-w-100"
               >
                 <div>
                   <h3 className="text-xl font-semibold text-gray-900">

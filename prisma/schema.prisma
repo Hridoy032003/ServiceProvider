@@ -58,6 +58,7 @@ model User {
   role          Role?
   serviceProviderProfile  ServiceProvider?
     bookings        Booking[]
+    contectReview  contectReview[]
 
 
 }
@@ -97,7 +98,7 @@ model Service {
   id                String   @id @default(cuid())
   name              String
   description       String?  @db.Text
-  price             Decimal  @db.Decimal(10, 2)
+  price             Int
   durationInMinutes Int   
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
@@ -147,3 +148,11 @@ model Booking {
   @@map("bookings")
 }
 
+model contectReview{
+  id      String          @id @default(cuid())
+  email   String    
+  content String
+  userId  String? 
+  user              User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+}

@@ -1,5 +1,4 @@
-// /components/BookingDashboard.tsx
-
+// Your BookingDashboard component
 "use client";
 
 import React, { useTransition } from "react";
@@ -18,19 +17,20 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-// import { Badge } from "@/components/ui/badge";
 import { MoreHorizontal } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { updateBookingStatus } from "@/app/actions/serviceProvideAction/update-booking-status";
-// import { updateBookingStatus } from "@/lib/actions/update-booking-status";
+import { toast } from "react-toastify";
 
-// Define the shape of the data we expect
-// This should match the data you fetch with Prisma (including related user and service)
+// STEP 1: Define the exact status type based on your Prisma Enum
+type BookingStatus = "pending" | "confrimd" | "cancel";
+
+// STEP 2: Update the main type to use the correct BookingStatus type
 export type BookingWithDetails = {
   id: string;
   date: Date;
   slot: string;
-  status: "pending" | "confrimd" | "cancel";
+  status: BookingStatus | null;
   user: {
     email: string | null;
   };
@@ -46,26 +46,35 @@ interface BookingDashboardProps {
 const BookingDashboard = ({ bookings }: BookingDashboardProps) => {
   const [isPending, startTransition] = useTransition();
 
-  const handleStatusChange = (bookingId: string, newStatus: string) => {
+ 
+  const handleStatusChange = (bookingId: string, newStatus: BookingStatus) => {
     startTransition(async () => {
-      await updateBookingStatus(bookingId, newStatus);
-      
+    
+      const result = await updateBookingStatus(bookingId, newStatus);
+
+      if (result?.error) {
+        toast.error(result.error);
+      } else {
+        window.location.reload();
+        toast.success("Booking status updated!");
+      }
+     
     });
   };
 
-  const getStatusVariant = (status: string) => {
-    switch (status) {
-      case "confrimd":
-        return "default";
-      case "pending":
-        return "secondary";
-      case "cancel":
-        return "destructive";
 
-      default:
-        return "default";
-    }
-  };
+   const getStatusColorClass = (status: BookingStatus | null) => {
+     switch (status) {
+       case "confrimd":
+         return "bg-green-500"; 
+       case "pending":
+         return "bg-yellow-500"; 
+       case "cancel":
+         return "bg-red-500"; 
+       default:
+         return "bg-gray-400";
+     }
+   };
 
   return (
     <div className="border rounded-lg p-4">
@@ -89,9 +98,19 @@ const BookingDashboard = ({ bookings }: BookingDashboardProps) => {
               <TableCell>{booking.date.toLocaleDateString()}</TableCell>
               <TableCell>{booking.slot}</TableCell>
               <TableCell>
-                <Badge variant={getStatusVariant(booking.status)}>
-                  {booking.status}
-                </Badge>
+                <div className="flex items-center gap-2">
+                  <span
+                    className={`h-2.5 w-2.5 rounded-full ${getStatusColorClass(
+                      booking.status
+                    )}`}
+                  />
+                  <span>
+                    {booking.status
+                      ? booking.status.charAt(0).toUpperCase() +
+                        booking.status.slice(1)
+                      : "Pending"}
+                  </span>
+                </div>
               </TableCell>
               <TableCell className="text-right">
                 <DropdownMenu>
@@ -103,25 +122,16 @@ const BookingDashboard = ({ bookings }: BookingDashboardProps) => {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
                     <DropdownMenuItem
-                      disabled={isPending}
-                      onClick={() =>
-                        handleStatusChange(booking.id, "CONFIRMED")
-                      }
+                      disabled={isPending || booking.status === "confrimd"}
+                      onClick={() => handleStatusChange(booking.id, "confrimd")}
                     >
                       Confirm
                     </DropdownMenuItem>
-                    <DropdownMenuItem
-                      disabled={isPending}
-                      onClick={() =>
-                        handleStatusChange(booking.id, "COMPLETED")
-                      }
-                    >
-                      Mark as Completed
-                    </DropdownMenuItem>
+
                     <DropdownMenuItem
                       className="text-red-600"
-                      disabled={isPending}
-                      onClick={() => handleStatusChange(booking.id, "CANCELED")}
+                      disabled={isPending || booking.status === "cancel"}
+                      onClick={() => handleStatusChange(booking.id, "cancel")}
                     >
                       Cancel
                     </DropdownMenuItem>

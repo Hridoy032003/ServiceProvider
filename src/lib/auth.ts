@@ -1,5 +1,3 @@
-
-
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { nanoid } from 'nanoid';
 import { NextAuthOptions, getServerSession } from 'next-auth';
@@ -7,9 +5,9 @@ import GoogleProvider from 'next-auth/providers/google';
 import GitHubProvider from 'next-auth/providers/github';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { compare } from 'bcrypt';
-import { db } from '@/utils/db'; 
+import { db } from '@/utils/db';
 
-export const  authOptions: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
   session: {
     strategy: 'jwt',
@@ -19,6 +17,7 @@ export const  authOptions: NextAuthOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
+    // ... your providers are unchanged
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
@@ -57,7 +56,6 @@ export const  authOptions: NextAuthOptions = {
             data: {
               email: email,
               name: email.split('@')[0],
-          
             },
           });
         }
@@ -66,8 +64,13 @@ export const  authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
+  
+        if (trigger === "update" && session?.role) {
+      console.log("TRIGGERED VIA UPDATE! New role from session:", session.role);
+      token.role = session.role;
+      return token;
+    }
 
       const dbUser = await db.user.findFirst({
         where: {
@@ -75,48 +78,41 @@ export const  authOptions: NextAuthOptions = {
         },
       });
 
-    
       if (!dbUser) {
-     
         if (user) {
           token.id = user.id;
         }
         return token;
       }
 
-   
+
       return {
         id: dbUser.id,
         name: dbUser.name,
         email: dbUser.email,
         picture: dbUser.image,
         username: dbUser.username || nanoid(10),
-        role: dbUser.role, 
-       hasAccess: dbUser.hasAccess
+        role: dbUser.role,
+        hasAccess: dbUser.hasAccess,
       };
     },
 
- 
     async session({ session, token }) {
-      
       if (token) {
         session.user.id = token.id;
         session.user.name = token.name;
         session.user.email = token.email;
         session.user.image = token.picture;
         session.user.username = token.username;
-        session.user.role = token.role as string; 
-       session.user.hasAccess = token.hasAccess as boolean
+        session.user.role = token.role as string;
+        session.user.hasAccess = token.hasAccess as boolean;
       }
-
       return session;
     },
 
-  
-     redirect({ baseUrl }) {
-
-    return baseUrl;
-  },
+    redirect({ baseUrl }) {
+      return baseUrl;
+    },
   },
 };
 

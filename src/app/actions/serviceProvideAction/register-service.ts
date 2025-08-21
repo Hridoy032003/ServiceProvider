@@ -20,7 +20,7 @@ export async function registerService(formData: FormData) {
     const session = await getAuthSession();
 
     if (!session?.user) {
-        // It's better to throw the error early if the user is not logged in.
+    
         throw new Error("You must be logged in to perform this action.");
     }
    
@@ -53,13 +53,12 @@ export async function registerService(formData: FormData) {
             description: parsedData.data.serviceDescription,
             price: parsedData.data.servicePrice,
             durationInMinutes: parsedData.data.serviceDuration,
-            
-            // 3. THE FIX: Pass only the ID from the fetched object.
             serviceProviderId: serviceProvider.id,
         },
     });
 
     revalidatePath("/serviceProvider/serviceProviderRegister/services");
+
 
     
     return service;
