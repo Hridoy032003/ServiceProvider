@@ -37,7 +37,7 @@ const Page = async ({
     {
       id: service.id,
       name: service.name,
-      price: service.price.toNumber(),
+      price: service.price,
       duration: service.durationInMinutes,
     },
   ];

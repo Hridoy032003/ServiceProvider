@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { headers } from 'next/headers';
 import { db } from '@/utils/db';
 import Stripe from 'stripe';
-import { getAuthSession } from '@/lib/auth';
+
 import { redirect } from 'next/navigation';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);

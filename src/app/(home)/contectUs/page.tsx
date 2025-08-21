@@ -88,13 +88,13 @@ export default async function AboutAndContactPage() {
               Get in Touch
             </h1>
             <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-              Have a question or a project in mind? We'd love to hear from you.
+              Have a question or a project in mind? We love to hear from you.
               Fill out the form or use our contact details below.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-12">
-           <FeedBack email={session?.user?.email}/>
+           <FeedBack email={session?.user?.email || ""}/>
 
             <div className="space-y-8">
               <div className="space-y-4">

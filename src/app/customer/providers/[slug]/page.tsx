@@ -14,7 +14,7 @@ const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
   );
 const formattedServices = services.map((service) => ({
   ...service,
-  price: service.price.toNumber(),
+  price: service.price,
 }));
   return (
     <div>

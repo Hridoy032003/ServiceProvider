@@ -18,7 +18,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { MoreHorizontal } from "lucide-react";
-import { Badge } from "../ui/badge";
 import { updateBookingStatus } from "@/app/actions/serviceProvideAction/update-booking-status";
 import { toast } from "react-toastify";
 

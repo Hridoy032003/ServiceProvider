@@ -1,389 +1,137 @@
-// // app/your-route/page.tsx
-// "use client";
 
-// import { useTransition } from "react";
-// import { useForm } from "react-hook-form";
-// import { zodResolver } from "@hookform/resolvers/zod";
-// import { toast } from "react-toastify";
-// import { useRouter } from "next/navigation";
-// import { z } from "zod";
-
-// import { registerService } from "@/app/actions/serviceProvideAction/register-service";
-// import {
-//   Form,
-//   FormControl,
-//   FormField,
-//   FormItem,
-//   FormLabel,
-//   FormMessage,
-// } from "@/components/ui/form";
-// import { Input } from "@/components/ui/input";
-// import { Textarea } from "@/components/ui/textarea";
-// import { Button } from "@/components/ui/button";
-// interface ServiceSchema {
-//   serviceName: string;
-//   serviceDescription: string;
-//   servicePrice: number;
-//   serviceDuration: number;
-//   serviceImage: string;
-// }
-// const serviceSchema = z.object({
-//   serviceName: z.string().min(1, "Service name cannot be empty."),
-//   serviceDescription: z.string().min(1, "Service description cannot be empty."),
-
-
-//   servicePrice: z
-//     .number()
-//     .positive("Service price must be a positive number.")
-//     .min(1, "Service price must be at least 1."),
-//   serviceDuration: z
-//     .number()
-//     .int()
-//     .positive("Service duration must be a positive integer.")
-//     .min(1, "Service duration must be at least 1."),
-
-//   serviceImage: z.string().url("Please enter a valid URL for the image."),
-// });
-
-// // This part is already correct!
-// export type TServiceSchema = z.infer<typeof serviceSchema>;
-
-// const ServiceRegistrationPage = () => {
-//   const [isPending, startTransition] = useTransition();
-//   const router = useRouter();
-
-//   const form = useForm<TServiceSchema>({
-//     resolver: zodResolver(serviceSchema),
-
-//     defaultValues: {
-//       serviceName: "",
-//       serviceDescription: "",
-//       servicePrice: 0,
-//       serviceDuration: 0,
-//       serviceImage: "",
-//     },
-//   });
-
-//   const onSubmit = (values: TServiceSchema) => {
-//     const formData = new FormData();
-
-//     Object.entries(values).forEach(([key, value]) => {
-//       formData.append(key, String(value));
-//     });
-
-//     startTransition(async () => {
-//       try {
-//         await registerService(formData);
-//         toast.success("Service registered successfully!");
-//         form.reset();
-//         router.push("/service-provider/dashboard");
-//       } catch (error) {
-//         const errorMessage =
-//           error instanceof Error ? error.message : "An unknown error occurred.";
-//         toast.error(`Registration failed: ${errorMessage}`);
-//         console.error("Submission error:", error);
-//       }
-//     });
-//   };
-
-//   return (
-//     <div className="container mx-auto p-4 max-w-2xl">
-//       <div className="mb-6">
-//         <h1 className="text-2xl font-bold">Register a New Service</h1>
-//         <p className="text-sm text-muted-foreground">
-//           Fill out the details below to add a new service to your profile.
-//         </p>
-//       </div>
-//       <Form {...form}>
-//         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-//           <FormField
-//             control={form.control}
-//             name="serviceName"
-//             render={({ field }) => (
-//               <FormItem>
-//                 <FormLabel>Service Name</FormLabel>
-//                 <FormControl>
-//                   <Input placeholder="e.g., Deep Tissue Massage" {...field} />
-//                 </FormControl>
-//                 <FormMessage />
-//               </FormItem>
-//             )}
-//           />
-
-//           <FormField
-//             control={form.control}
-//             name="serviceDescription"
-//             render={({ field }) => (
-//               <FormItem>
-//                 <FormLabel>Service Description</FormLabel>
-//                 <FormControl>
-//                   <Textarea
-//                     placeholder="Describe the service in detail..."
-//                     {...field}
-//                   />
-//                 </FormControl>
-//                 <FormMessage />
-//               </FormItem>
-//             )}
-//           />
-
-//           {/* Service Price & Duration Fields */}
-//           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-//             <FormField
-//               control={form.control}
-//               name="servicePrice"
-//               render={({ field }) => (
-//                 <FormItem>
-//                   <FormLabel>Service Price ($)</FormLabel>
-//                   <FormControl>
-//                     {/* STEP 4: Remove the manual onChange handler. It is not needed. */}
-//                     <Input
-//                       type="number"
-//                       step="0.01"
-//                       placeholder="e.g., 75.00"
-//                       {...field}
-//                     />
-//                   </FormControl>
-//                   <FormMessage />
-//                 </FormItem>
-//               )}
-//             />
-//             <FormField
-//               control={form.control}
-//               name="serviceDuration"
-//               render={({ field }) => (
-//                 <FormItem>
-//                   <FormLabel>Duration (minutes)</FormLabel>
-//                   <FormControl>
-//                     {/* STEP 4: Remove the manual onChange handler. */}
-//                     <Input type="number" placeholder="e.g., 60" {...field} />
-//                   </FormControl>
-//                   <FormMessage />
-//                 </FormItem>
-//               )}
-//             />
-//           </div>
-
-//           {/* Service Image URL Field */}
-//           <FormField
-//             control={form.control}
-//             name="serviceImage"
-//             render={({ field }) => (
-//               <FormItem>
-//                 <FormLabel>Service Image URL</FormLabel>
-//                 <FormControl>
-//                   <Input
-//                     placeholder="https://example.com/image.png"
-//                     {...field}
-//                   />
-//                 </FormControl>
-//                 <FormMessage />
-//               </FormItem>
-//             )}
-//           />
-
-//           <Button type="submit" disabled={isPending} className="w-full">
-//             {isPending ? "Registering..." : "Register Service"}
-//           </Button>
-//         </form>
-//       </Form>
-//     </div>
-//   );
-// };
-
-// export default ServiceRegistrationPage;
 "use client";
 
-import { useTransition } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+
+import { useState, useTransition } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import { z } from "zod";
 
 import { registerService } from "@/app/actions/serviceProvideAction/register-service";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-
-// STEP 1: Use `z.coerce` to tell Zod to convert the string from the form to a number
-const serviceSchema = z.object({
-  serviceName: z.string().min(1, "Service name cannot be empty."),
-  serviceDescription: z.string().min(1, "Service description cannot be empty."),
-  servicePrice: z.coerce // Converts string to number
-    .number()
-    .positive("Service price must be a positive number.")
-    .min(1, "Service price must be at least 1."),
-  serviceDuration: z.coerce // Converts string to number
-    .number()
-    .int()
-    .positive("Service duration must be a positive integer.")
-    .min(1, "Service duration must be at least 1."),
-  serviceImage: z.string().url("Please enter a valid URL for the image."),
-});
-
-export type TServiceSchema = z.infer<typeof serviceSchema>;
+import { Label } from "@/components/ui/label"; 
 
 const ServiceRegistrationPage = () => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
-  const form = useForm<TServiceSchema>({
-    resolver: zodResolver(serviceSchema),
-    defaultValues: {
-      serviceName: "",
-      serviceDescription: "",
-      servicePrice: 0, // Default remains a number
-      serviceDuration: 0, // Default remains a number
-      serviceImage: "",
-    },
-  });
+ 
+  const [serviceName, setServiceName] = useState("");
+  const [serviceDescription, setServiceDescription] = useState("");
+  const [servicePrice, setServicePrice] = useState("");
+  const [serviceDuration, setServiceDuration] = useState("");
+  const [serviceImage, setServiceImage] = useState("");
 
-  const onSubmit = (values: TServiceSchema) => {
-    const formData = new FormData();
-    Object.entries(values).forEach(([key, value]) => {
-      formData.append(key, String(value));
-    });
+  const [error, setError] = useState<string | null>(null);
+
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setError(null); 
+
+    const formData = new FormData(event.currentTarget);
+
     startTransition(async () => {
       try {
+ 
         await registerService(formData);
-        toast.success("Service registered successfully!");
-        form.reset();
+
+        toast.success("Service added successfully!");
+      
+        setServiceName("");
+        setServiceDescription("");
+        setServicePrice("");
+        setServiceDuration("");
+        setServiceImage("");
         router.push("/service-provider/dashboard");
-      } catch (error) {
+      } catch (err) {
+    
         const errorMessage =
-          error instanceof Error ? error.message : "An unknown error occurred.";
+          err instanceof Error ? err.message : "An unknown error occurred.";
+        setError(errorMessage); 
         toast.error(`Registration failed: ${errorMessage}`);
-        console.error("Submission error:", error);
+        console.error("Submission error:", err);
       }
     });
   };
 
   return (
     <div className="container mx-auto p-4 max-w-2xl">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold">Register a New Service</h1>
-        <p className="text-sm text-muted-foreground">
-          Fill out the details below to add a new service to your profile.
-        </p>
-      </div>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <FormField
-            control={form.control}
-            name="serviceName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Service Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="e.g., Deep Tissue Massage" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+      <h1 className="text-2xl font-bold">Register a New Service</h1>
+      <p className="text-sm text-muted-foreground mb-6">
+        Fill out the details below to add a new service to your profile.
+      </p>
 
-          <FormField
-            control={form.control}
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="space-y-1">
+          <Label htmlFor="serviceName">Service Name</Label>
+          <Input
+            id="serviceName"
+            name="serviceName" 
+            placeholder="e.g., Deep Tissue Massage"
+            value={serviceName}
+            onChange={(e) => setServiceName(e.target.value)}
+          />
+        </div>
+
+        <div className="space-y-1">
+          <Label htmlFor="serviceDescription">Service Description</Label>
+          <Textarea
+            id="serviceDescription"
             name="serviceDescription"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Service Description</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder="Describe the service in detail..."
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            placeholder="Describe the service in detail..."
+            value={serviceDescription}
+            onChange={(e) => setServiceDescription(e.target.value)}
           />
+        </div>
 
-          {/* Service Price & Duration Fields */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <FormField
-              control={form.control}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-1">
+            <Label htmlFor="servicePrice">Service Price ($)</Label>
+            <Input
+              id="servicePrice"
               name="servicePrice"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Service Price ($)</FormLabel>
-                  <FormControl>
-                    {/* STEP 2: Manually handle onChange to convert the string to a number for TypeScript */}
-                    <Input
-                      type="number"
-                      step="0.01"
-                      placeholder="e.g., 75.00"
-                      {...field}
-                      onChange={(e) => {
-                        const value = parseFloat(e.target.value);
-                        field.onChange(isNaN(value) ? 0 : value);
-                      }}
-                      // Set value to empty string if it's 0 for better UX
-                      value={field.value === 0 ? "" : field.value}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="serviceDuration"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Duration (minutes)</FormLabel>
-                  <FormControl>
-                    {/* STEP 3: Apply the same manual onChange handler here */}
-                    <Input
-                      type="number"
-                      placeholder="e.g., 60"
-                      {...field}
-                      onChange={(e) => {
-                        const value = parseInt(e.target.value, 10);
-                        field.onChange(isNaN(value) ? 0 : value);
-                      }}
-                      // Set value to empty string if it's 0 for better UX
-                      value={field.value === 0 ? "" : field.value}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              type="number"
+              step="0.01"
+              placeholder="e.g., 75.00"
+              value={servicePrice}
+              onChange={(e) => setServicePrice(e.target.value)}
             />
           </div>
+          <div className="space-y-1">
+            <Label htmlFor="serviceDuration">Duration (minutes)</Label>
+            <Input
+              id="serviceDuration"
+              name="serviceDuration"
+              type="number"
+              placeholder="e.g., 60"
+              value={serviceDuration}
+              onChange={(e) => setServiceDuration(e.target.value)}
+            />
+          </div>
+        </div>
 
-          {/* Service Image URL Field */}
-          <FormField
-            control={form.control}
+        <div className="space-y-1">
+          <Label htmlFor="serviceImage">Service Image URL</Label>
+          <Input
+            id="serviceImage"
             name="serviceImage"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Service Image URL</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="https://example.com/image.png"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            placeholder="https://example.com/image.png"
+            value={serviceImage}
+            onChange={(e) => setServiceImage(e.target.value)}
           />
+        </div>
 
-          <Button type="submit" disabled={isPending} className="w-full">
-            {isPending ? "Registering..." : "Register Service"}
-          </Button>
-        </form>
-      </Form>
+        {/* Display server-side error message here */}
+        {error && (
+          <p className="text-sm font-medium text-destructive">{error}</p>
+        )}
+
+        <Button type="submit" disabled={isPending} className="w-full">
+          {isPending ? "Registering..." : "Register Service"}
+        </Button>
+      </form>
     </div>
   );
 };

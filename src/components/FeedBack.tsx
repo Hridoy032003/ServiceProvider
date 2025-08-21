@@ -14,7 +14,6 @@ import {
 } from "./ui/card";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
 import {
   Form,
@@ -50,7 +49,7 @@ console.log(email);
     formData.append("email", email);
     formData.append("content", values.message);
 
-    await submitFeedback(null, formData);
+    await submitFeedback( formData);
 
     toast.success("Feedback submitted successfully!");
 
@@ -63,7 +62,7 @@ console.log(email);
         <CardHeader>
           <CardTitle>Send us a Message</CardTitle>
           <CardDescription>
-            We'll get back to you as soon as possible.
+            We `&apos;ll love to hear from you!` ll get back to you as soon as possible.
           </CardDescription>
         </CardHeader>
         <CardContent>

@@ -12,7 +12,7 @@ const feedbackSchema = z.object({
   content: z.string().min(1, { message: "Message cannot be empty." }),
 });
 
-export async function submitFeedback(prevState: any, formData: FormData) {
+export async function submitFeedback( formData: FormData) {
   const rawData = {
     email: formData.get("email"),
     content: formData.get("content"),
