@@ -1,7 +1,11 @@
+import Footer from "@/components/Footer";
 import ServiceCard from "@/components/globle-component/ServiceCard";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { services } from "@/helper/service";
+import { accrodiandata } from "@/utils/accrodian";
 import Image from "next/image";
+
 export default function Home() {
 
   return (
@@ -152,7 +156,6 @@ export default function Home() {
       </section>
       <section className="bg-gray-50 py-16 lg:py-24 mt-30">
         <div className="container mx-auto px-4">
-
           <div className="text-center mb-12">
             <p className="text-sm font-bold uppercase text-blue-600 mb-2">
               Our Services
@@ -162,18 +165,26 @@ export default function Home() {
             </h2>
           </div>
 
-       
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {
-            services.map((service) => (
-              <ServiceCard  key={service.id} item={service} />
-            ))
-          }
-            
-            
+            {services.map((service) => (
+              <ServiceCard key={service.id} item={service} />
+            ))}
           </div>
         </div>
       </section>
+      <div className="bg-gray-50 py-16 lg:py-24 mt-30">
+        {accrodiandata.questions.map((item) => (
+          <div className=" lg:px-50 " key={item.id}>
+            <Accordion type="single" collapsible >
+              <AccordionItem value="item-1" className="text-xl">
+                <AccordionTrigger>{item.question}</AccordionTrigger>
+                <AccordionContent>{item.answer}</AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </div>
+        ))}
+      </div>
+      <Footer/>
     </>
   );
 }

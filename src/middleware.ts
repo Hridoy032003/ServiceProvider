@@ -22,11 +22,11 @@ export async function middleware(request: NextRequest) {
     
   }
 
-
-
-  
-
-
+if(token && isCustomerRoute && !token.hasAccess) {
+  const loginUrl = new URL('/', request.url);
+  loginUrl.searchParams.set('callbackUrl', pathname);
+  return NextResponse.redirect(loginUrl);
+}
   return NextResponse.next();
 }
 
