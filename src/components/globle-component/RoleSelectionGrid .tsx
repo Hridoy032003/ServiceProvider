@@ -24,7 +24,7 @@ function PendingOverlay() {
 
 export function RoleSelectionGrid({ userId }: { userId: string }) {
   const { update } = useSession();
-const [loding, setSetloading] = React.useState<Boolean>(false);
+
 
   const handleSetRole = async (formData: FormData) => {
     await setUserRole(formData);
@@ -33,12 +33,10 @@ const newRole = formData.get("role") as string;
 
     if (newRole) {
       await update({ role: newRole });
-     setSetloading(false);
+    
     }
   };
-if(loding){
-  return <div className="h-screen flex items-center justify-center w-screen bg-gray-100">Loading...</div>;
-}
+
   return (
     <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
       {rolesData.map((role) => (

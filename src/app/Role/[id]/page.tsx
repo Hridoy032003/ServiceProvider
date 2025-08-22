@@ -1,13 +1,10 @@
 import React from "react";
 import { getAuthSession } from "@/lib/auth";
 import { RoleSelectionGrid } from "@/components/globle-component/RoleSelectionGrid ";
-import { getToken } from "next-auth/jwt";
-import { NextRequest } from "next/server";
 
 
-export default async function ChooseRolePage(
 
- ) {
+export default async function ChooseRolePage(){
 
   const session = await getAuthSession();
 
