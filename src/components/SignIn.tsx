@@ -1,6 +1,5 @@
 import React from "react";
 
-import GithubAuth from "./GithubAuth";
 import GoogleAuth from "./GoogleAuth";
 import SignInFrom from "./SignInFrom";
 

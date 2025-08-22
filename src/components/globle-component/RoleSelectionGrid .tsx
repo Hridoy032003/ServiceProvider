@@ -7,7 +7,7 @@ import { useSession } from "next-auth/react";
 import { Card } from "@/components/ui/card";
 import { rolesData } from "@/helper/role";
 import { setUserRole } from "@/app/actions/set-user-role";
-import { set } from "zod";
+
 
 
 function PendingOverlay() {
@@ -22,7 +22,7 @@ function PendingOverlay() {
   );
 }
 
-export function RoleSelectionGrid({ userId, tokenRole }: { userId: string, tokenRole: string }) {
+export function RoleSelectionGrid({ userId }: { userId: string }) {
   const { update } = useSession();
 const [loding, setSetloading] = React.useState<Boolean>(false);
 

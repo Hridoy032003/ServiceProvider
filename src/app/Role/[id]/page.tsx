@@ -10,13 +10,9 @@ export default async function ChooseRolePage(
  ) {
 
   const session = await getAuthSession();
-const token = await getToken(
-  {
-    req: NextRequest as unknown as NextRequest,
-    secret: process.env.NEXTAUTH_SECRET
-  }
-);
-console.log(" token", token);
+
+
+
 
   if (!session?.user) {
     return <p>You must be logged in to view this page.</p>;
@@ -32,7 +28,7 @@ console.log(" token", token);
         How will you be using our platform, {session.user.name}?
       </p>
 
-      <RoleSelectionGrid userId={session.user.id} tokenRole={token?.role as string}/>
+      <RoleSelectionGrid userId={session.user.id} />
     </div>
   );
 }
