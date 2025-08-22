@@ -3,12 +3,12 @@
 import React from "react";
 import Image from "next/image";
 import { useFormStatus } from "react-dom";
-import { useSession } from "next-auth/react"; // 1. Import useSession
+import { useSession } from "next-auth/react";
 import { Card } from "@/components/ui/card";
 import { rolesData } from "@/helper/role";
 import { setUserRole } from "@/app/actions/set-user-role";
 
-// This component is perfect as-is. No changes needed here.
+
 function PendingOverlay() {
   const { pending } = useFormStatus();
 
@@ -22,30 +22,23 @@ function PendingOverlay() {
 }
 
 export function RoleSelectionGrid({ userId }: { userId: string }) {
-
   const { update } = useSession();
 
-  
   const handleSetRole = async (formData: FormData) => {
-    // First, call your original server action to update the database.
-    // The server action will handle validation and redirection.
     await setUserRole(formData);
+ 
 
-    // Get the role that was just submitted
     const newRole = formData.get("role") as string;
 
-    // ** THIS IS THE CRUCIAL STEP **
-    // After the server is updated, trigger a client-side session update.
-    // This forces the JWT to be re-evaluated and updated with the new role.
     if (newRole) {
       await update({ role: newRole });
+     
     }
   };
 
   return (
     <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
       {rolesData.map((role) => (
-        // 4. Point the form's action to our new client-side handler
         <form action={handleSetRole} key={role.id}>
           <input type="hidden" name="userId" value={userId} />
           <input type="hidden" name="role" value={role.id} />
