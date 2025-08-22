@@ -31,8 +31,9 @@ enum Role {
   customer
   service_provider 
 }
-enum BookingStatus{
-  pending
+
+enum BookingStatus {
+    pending
   confrimd
   cancel
 }
