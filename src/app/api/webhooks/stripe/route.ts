@@ -52,7 +52,7 @@ console.log(" user", user);
             stripeCustomerId: checkoutSession.customer as string,
           },
         });
-        redirect("/serviceProvider/dashboard/"+user.id);
+       
         break;
       }
 
@@ -88,10 +88,12 @@ console.log(" user", user);
       default:
         console.log(`Unhandled event type: ${event.type}`);
     }
+     redirect('/serviceProvider');
   } catch (error) {
     console.error('Error processing Stripe event:', error);
     return NextResponse.json({ error: 'Error processing Stripe event' }, { status: 400 });
   }
+  
 
-  return NextResponse.json({ received: true });
+
 }

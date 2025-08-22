@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import { Card } from "@/components/ui/card";
 import { rolesData } from "@/helper/role";
 import { setUserRole } from "@/app/actions/set-user-role";
+import { set } from "zod";
 
 
 function PendingOverlay() {
@@ -21,21 +22,23 @@ function PendingOverlay() {
   );
 }
 
-export function RoleSelectionGrid({ userId }: { userId: string }) {
+export function RoleSelectionGrid({ userId, tokenRole }: { userId: string, tokenRole: string }) {
   const { update } = useSession();
+const [loding, setSetloading] = React.useState<Boolean>(false);
 
   const handleSetRole = async (formData: FormData) => {
     await setUserRole(formData);
  
-
-    const newRole = formData.get("role") as string;
+const newRole = formData.get("role") as string;
 
     if (newRole) {
       await update({ role: newRole });
-     
+     setSetloading(false);
     }
   };
-
+if(loding){
+  return <div className="h-screen flex items-center justify-center w-screen bg-gray-100">Loading...</div>;
+}
   return (
     <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
       {rolesData.map((role) => (

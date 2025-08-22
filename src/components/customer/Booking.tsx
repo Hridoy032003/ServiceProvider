@@ -215,18 +215,7 @@ const calculateEndTime = (startTime: string, duration: number): string => {
                   </div>
                 )}
 
-                <SheetFooter className="mt-6">
-                  <Button
-                    type="submit"
-                    form="booking-form"
-                    variant="default"
-                    size="lg"
-                    className="w-full"
-                    disabled={!selectedDate || !selectedTime || isPending}
-                  >
-                    {isPending ? "Confirming..." : "Confirm Booking"}
-                  </Button>
-                </SheetFooter>
+                <SheetFooter className="mt-6"></SheetFooter>
               </SheetContent>
             </Sheet>
           </CardTitle>
@@ -249,12 +238,24 @@ const calculateEndTime = (startTime: string, duration: number): string => {
               <span className="font-medium">Price: $</span>
               <span className="ml-2 text-gray-600">{serviceToBook.price}</span>
             </div>
-            <div className="flex items-center text-sm">
-              <Clock className="mr-3 h-5 w-5 text-gray-500" />
-              <span className="font-medium">Selected Time:</span>
-              <span className="ml-2 text-gray-600">
-                {selectedTime || "Not selected"}
-              </span>
+            <div className="flex items-center text-sm flex-row justify-between">
+          
+              <div className="flex items-center text-sm">
+                <Clock className="mr-3 h-5 w-5 text-gray-500" />
+                <span className="font-medium">Selected Time:</span>
+                <span className="ml-2 text-gray-600">
+                  {selectedTime || "Not selected"}
+                </span>
+              </div>
+              <Button
+                type="submit"
+                form="booking-form"
+                variant="default"
+                size="lg"
+                disabled={!selectedDate || !selectedTime || isPending}
+              >
+                {isPending ? "Confirming..." : "Confirm Booking"}
+              </Button>
             </div>
           </div>
         </CardContent>

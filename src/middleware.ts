@@ -21,7 +21,7 @@ export async function middleware(request: NextRequest) {
     if(!token && protectedRoutes){
       return NextResponse.redirect('/');
     }
-    
+   
     if (token.role === 'customer' && isServiceProviderRoute) {
       const url = request.nextUrl.clone();
       url.pathname = `/customer/dashboard/${token.id}`; 

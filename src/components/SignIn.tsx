@@ -9,7 +9,7 @@ const SignIn = () => {
     <div className="container mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[400px]">
         <h1 className="text-2xl font-semibold tracking-tight text-center">Wealcome Back!</h1>
         <SignInFrom />
-      <GithubAuth/>
+      {/* <GithubAuth/> */}
       <GoogleAuth />
       
     </div>
