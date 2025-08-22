@@ -31,8 +31,6 @@ export async function setUserRole(formData: FormData) {
       console.error("Zod Validation Failed:", parsed.error.flatten());
       throw new Error("Invalid form data provided.");
     }
-
-    // Assign the validated data to the outer scope variables
     selectedRole = parsed.data.role;
     userId = parsed.data.userId;
 

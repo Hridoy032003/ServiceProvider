@@ -17,7 +17,7 @@ export const serviceSchema = z.object({
     .min(1, "Service duration must be at least 1 minute."),
     
 
-  serviceImage: z.string().url("Please enter a valid URL for the image."),
+  
 });
 
 export type TServiceSchema = z.infer<typeof serviceSchema>;

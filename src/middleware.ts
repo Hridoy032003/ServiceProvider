@@ -7,7 +7,6 @@ export async function middleware(request: NextRequest) {
     req: request,
     secret: process.env.NEXTAUTH_SECRET,
   });
-
   const { pathname } = request.nextUrl;
 
   const isServiceProviderRoute = pathname.startsWith('/serviceProvider');

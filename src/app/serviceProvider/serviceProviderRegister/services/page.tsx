@@ -12,6 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label"; 
 
+
 const ServiceRegistrationPage = () => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
@@ -21,7 +22,7 @@ const ServiceRegistrationPage = () => {
   const [serviceDescription, setServiceDescription] = useState("");
   const [servicePrice, setServicePrice] = useState("");
   const [serviceDuration, setServiceDuration] = useState("");
-  const [serviceImage, setServiceImage] = useState("");
+
 
   const [error, setError] = useState<string | null>(null);
 
@@ -43,8 +44,8 @@ const ServiceRegistrationPage = () => {
         setServiceDescription("");
         setServicePrice("");
         setServiceDuration("");
-        setServiceImage("");
-        router.push("/service-provider/dashboard");
+  
+        router.refresh();
       } catch (err) {
     
         const errorMessage =
@@ -112,18 +113,9 @@ const ServiceRegistrationPage = () => {
           </div>
         </div>
 
-        <div className="space-y-1">
-          <Label htmlFor="serviceImage">Service Image URL</Label>
-          <Input
-            id="serviceImage"
-            name="serviceImage"
-            placeholder="https://example.com/image.png"
-            value={serviceImage}
-            onChange={(e) => setServiceImage(e.target.value)}
-          />
-        </div>
+        
 
-        {/* Display server-side error message here */}
+       
         {error && (
           <p className="text-sm font-medium text-destructive">{error}</p>
         )}

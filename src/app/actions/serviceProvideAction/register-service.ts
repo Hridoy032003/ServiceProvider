@@ -39,7 +39,7 @@ export async function registerService(formData: FormData) {
   }
   
 
-  const priceInCents = Math.round(parsedData.data.servicePrice * 100);
+  const priceInCents = Math.round(parsedData.data.servicePrice );
 
   const service = await db.service.create({
     data: {
