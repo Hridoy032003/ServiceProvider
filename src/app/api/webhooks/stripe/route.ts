@@ -3,10 +3,9 @@ import { headers } from 'next/headers';
 import { db } from '@/utils/db';
 import Stripe from 'stripe';
 
-import { redirect } from 'next/navigation';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-const webhookSecret = process.env.STRIPE_WEBHOOCK_SECRET!;
+const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
 export async function POST(req: Request) {
   const body = await req.text();
@@ -37,7 +36,7 @@ const signature = (await headers()).get('stripe-signature') as string;
             email: checkoutSession?.customer_details?.email as string,
           },
         });
-console.log(" user", user);
+
         if (!user) {
           console.error(`No user found with email from checkout session.`);
           throw new Error('User not found.');
@@ -88,7 +87,8 @@ console.log(" user", user);
       default:
         console.log(`Unhandled event type: ${event.type}`);
     }
-     redirect('/serviceProvider');
+    return NextResponse.json({ received: true });
+    
   } catch (error) {
     console.error('Error processing Stripe event:', error);
     return NextResponse.json({ error: 'Error processing Stripe event' }, { status: 400 });

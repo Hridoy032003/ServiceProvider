@@ -41,7 +41,7 @@ const Usermenu = ({ session }: Props ) => {
           </div>
           <DropdownMenuSeparator />
           <DropdownMenuItem>
-            <Link href="/orders">Orders</Link>
+            <Link href="/customer/providers">Orders</Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <Link href="/contectUs">About Us</Link>

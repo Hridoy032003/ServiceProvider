@@ -238,7 +238,7 @@ const calculateEndTime = (startTime: string, duration: number): string => {
               <span className="font-medium">Price: $</span>
               <span className="ml-2 text-gray-600">{serviceToBook.price}</span>
             </div>
-            <div className="flex items-center text-sm flex-row justify-between">
+            <div className="flex  text-sm md:flex-row justify-between flex-col lg:flex-row  ">
           
               <div className="flex items-center text-sm">
                 <Clock className="mr-3 h-5 w-5 text-gray-500" />
@@ -253,6 +253,8 @@ const calculateEndTime = (startTime: string, duration: number): string => {
                 variant="default"
                 size="lg"
                 disabled={!selectedDate || !selectedTime || isPending}
+                className="mt-2"
+              
               >
                 {isPending ? "Confirming..." : "Confirm Booking"}
               </Button>

@@ -16,7 +16,7 @@ function PendingOverlay() {
   if (!pending) return null;
 
   return (
-    <div className="absolute inset-0 flex items-center justify-center rounded-xl bg-black/70">
+    <div className="absolute inset-0 flex items-center justify-center rounded-xl bg-black/70 h-screen">
       <div className="h-8 w-8 animate-spin rounded-full border-4 border-solid border-white border-t-transparent"></div>
     </div>
   );

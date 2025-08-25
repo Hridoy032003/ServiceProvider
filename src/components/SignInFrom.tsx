@@ -88,7 +88,6 @@ const SignInFormOtp = () => {
       if (result?.error) {
         toast.error(result.error);
       } else if (result?.ok) {
-        toast.success("You are now signed in!");
         router.push("/");
         router.refresh();
       }

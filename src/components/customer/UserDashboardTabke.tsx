@@ -61,7 +61,7 @@ const BookingHistoryTable = ({ bookings }: BookingHistoryTableProps) => {
    }
  };
   return (
-    <div className="border rounded-lg mt-6 overflow-x-auto">
+    <div className="border rounded-lg mt-6 overflow-x-auto mb-10">
       <Table>
         <TableHeader className="bg-gray-50">
           <TableRow>

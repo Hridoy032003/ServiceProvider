@@ -1,9 +1,11 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link';
-import { Button } from '../ui/button';
+
 import { getAuthSession } from '@/lib/auth';
 import LogOut from '../LogOut';
+
+import SubscribeButton from './SubscribeButton';
 const NavbarSP =async () => {
   const session = await getAuthSession();
  
@@ -24,7 +26,7 @@ const NavbarSP =async () => {
           SPARKLE & SHINE
         </h1>
       </Link>
-   
+
       {(session?.user?.role === "service_provider" &&
         session?.user?.hasAccess === true && (
           <div className=" gap-4 flex flex-row md:flex lg:flex items-center justify-center">
@@ -38,16 +40,14 @@ const NavbarSP =async () => {
               href={`/serviceProvider/dashboard/${session?.user?.id}`}
               className="hover:underline underline-offset-4"
             >
-             Dashboard
+              Dashboard
             </Link>
-              <LogOut/>
+            <LogOut />
           </div>
         )) ||
         (session?.user?.role === "service_provider" &&
           session?.user?.hasAccess === false && (
-            <Link href={`/serviceProvider/suscription/${session?.user?.id}`}>
-              <Button>Subscribe</Button>
-            </Link>
+            <SubscribeButton userEmail={session?.user?.email!} userId={session?.user?.id!} />
           ))}
     </div>
   );

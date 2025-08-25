@@ -3,6 +3,7 @@ import { getAuthSession } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import NavbarSP from "@/components/serviceComponent/NavbarSP";
+import AccessDenied from "@/components/AccessDenied";
 
 
 const serviceLayout = async ({ children }: { children: React.ReactNode }) => {
@@ -15,12 +16,7 @@ const serviceLayout = async ({ children }: { children: React.ReactNode }) => {
           <div className="md:px-30 lg:px-40 px-5">{children}</div>
         </>
       ) : (
-        <div className="md:px-30 lg:px-40 px-5">
-          <h1>Access Denied</h1>
-          <Link href={``}>
-            <Button>Home</Button>
-          </Link>
-        </div>
+       <AccessDenied/>
       )}
     </div>
   );
