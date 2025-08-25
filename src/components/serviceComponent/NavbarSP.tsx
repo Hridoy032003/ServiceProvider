@@ -47,7 +47,7 @@ const NavbarSP =async () => {
         )) ||
         (session?.user?.role === "service_provider" &&
           session?.user?.hasAccess === false && (
-            <SubscribeButton userEmail={session?.user?.email!} userId={session?.user?.id!} />
+            <SubscribeButton userEmail={session?.user?.email || ""} userId={session?.user?.id || ""} />
           ))}
     </div>
   );

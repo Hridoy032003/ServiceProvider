@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
 import { Button } from './ui/button'
-import { VideoIcon } from 'lucide-react';
+
 
 const AccessDenied = () => {
   return (
