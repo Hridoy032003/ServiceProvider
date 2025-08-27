@@ -3,11 +3,12 @@
 import React from "react";
 import Image from "next/image";
 import { useFormStatus } from "react-dom";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 import { Card } from "@/components/ui/card";
 import { rolesData } from "@/helper/role";
 import { setUserRole } from "@/app/actions/set-user-role";
-import { getAuthSession } from "@/lib/auth";
+import { set } from "zod";
+
 
 
 
@@ -25,7 +26,7 @@ function PendingOverlay() {
 
 export  function RoleSelectionGrid({ userId,email }: { userId: string;email:string }) {
   // const { update } = useSession();
-
+const [loading, setLoading] = React.useState(false);
 
   const handleSetRole = async (formData: FormData) => {
     await setUserRole(formData);
@@ -40,12 +41,21 @@ const newRole = formData.get("role") as string;
         { email , redirect: false },
 
       );
+      setLoading(true);
      
     }
+    setLoading(false);
   };
 
   return (
     <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+     {
+      loading && (
+        <div className="absolute inset-0 flex items-center justify-center rounded-xl bg-black/70 h-screen">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-solid border-white border-t-transparent">Loding...</div>
+      </div>
+      )
+     } 
       {rolesData.map((role) => (
         <form action={handleSetRole} key={role.id}>
           <input type="hidden" name="userId" value={userId} />
