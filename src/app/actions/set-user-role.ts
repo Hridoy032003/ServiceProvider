@@ -2,7 +2,6 @@
 
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/utils/db";
 
@@ -14,7 +13,8 @@ const roleSchema = z.object({
 });
 
 export async function setUserRole(formData: FormData) {
-  let selectedRole, userId;
+  let selectedRole: "customer" | "service_provider" | undefined;
+  let userId: string | undefined;
 
   try {
     const session = await getAuthSession();
@@ -45,17 +45,10 @@ export async function setUserRole(formData: FormData) {
 
     revalidatePath("/", "layout");
 
+    return { selectedRole, userId };
   } catch (error) {
- 
-
     console.error("Error in setUserRole action:", error);
     throw new Error("Failed to set user role.");
   }
-
-
-  if (selectedRole === "customer") {
-    redirect(`/customer/dashboard/${userId}`);
-  } else if (selectedRole === "service_provider") {
-    redirect(`/serviceProvider/dashboard/${userId}`);
-  }
 }
+

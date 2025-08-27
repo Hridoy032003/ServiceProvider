@@ -15,7 +15,7 @@ export async function middleware(request: NextRequest) {
 
   
 
-console.log(token?.role);
+
   if (token?.role) {
     if(!token && protectedRoutes){
       return NextResponse.redirect('/');

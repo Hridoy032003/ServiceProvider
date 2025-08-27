@@ -3,11 +3,12 @@
 import React from "react";
 import Image from "next/image";
 import { useFormStatus } from "react-dom";
-import { signIn, signOut } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { Card } from "@/components/ui/card";
 import { rolesData } from "@/helper/role";
 import { setUserRole } from "@/app/actions/set-user-role";
 import { set } from "zod";
+import { useRouter } from "next/navigation";
 
 
 
@@ -25,37 +26,25 @@ function PendingOverlay() {
 }
 
 export  function RoleSelectionGrid({ userId,email }: { userId: string;email:string }) {
-  // const { update } = useSession();
-const [loading, setLoading] = React.useState(false);
+  const router = useRouter();
+  const { update } = useSession();
 
   const handleSetRole = async (formData: FormData) => {
-    await setUserRole(formData);
- 
-const newRole = formData.get("role") as string;
+    const newRole = formData.get("role") as string;
+    const currentUserId = formData.get("userId") as string;
 
-    if (newRole) {
-      // await update({ role: newRole });
-      await signOut({ redirect: false });
-      await signIn(
-        "credentials",
-        { email , redirect: false },
+    await Promise.all([setUserRole(formData), update({ role: newRole })]);
 
-      );
-      setLoading(true);
-     
+    if (newRole === "customer") {
+      router.push(`/customer/dashboard/${currentUserId}`);
+    } else if (newRole === "service_provider") {
+      router.push(`/serviceProvider/dashboard/${currentUserId}`);
     }
-    setLoading(false);
   };
 
   return (
     <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-     {
-      loading && (
-        <div className="absolute inset-0 flex items-center justify-center rounded-xl bg-black/70 h-screen">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-solid border-white border-t-transparent">Loding...</div>
-      </div>
-      )
-     } 
+
       {rolesData.map((role) => (
         <form action={handleSetRole} key={role.id}>
           <input type="hidden" name="userId" value={userId} />

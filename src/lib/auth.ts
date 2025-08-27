@@ -63,13 +63,13 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user}) {
+    async jwt({ token, user, trigger, session }) {
   
-    //     if (trigger === "update" && session?.role) {
-    //   console.log("TRIGGERED VIA UPDATE! New role from session:", session.role);
-    //   token.role = session.role;
-    //   return token;
-    // }
+        if (trigger === "update" && session?.role) {
+          
+      token.role = session.role;
+      return token;
+    }
 
       const dbUser = await db.user.findFirst({
         where: {
@@ -108,6 +108,7 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
+   
 
     redirect({ baseUrl }) {
       return baseUrl;
