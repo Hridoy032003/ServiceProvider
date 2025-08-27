@@ -3,10 +3,11 @@
 import React from "react";
 import Image from "next/image";
 import { useFormStatus } from "react-dom";
-import { useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { Card } from "@/components/ui/card";
 import { rolesData } from "@/helper/role";
 import { setUserRole } from "@/app/actions/set-user-role";
+import { getAuthSession } from "@/lib/auth";
 
 
 
@@ -22,8 +23,8 @@ function PendingOverlay() {
   );
 }
 
-export function RoleSelectionGrid({ userId }: { userId: string }) {
-  const { update } = useSession();
+export  function RoleSelectionGrid({ userId,email }: { userId: string;email:string }) {
+  // const { update } = useSession();
 
 
   const handleSetRole = async (formData: FormData) => {
@@ -32,8 +33,14 @@ export function RoleSelectionGrid({ userId }: { userId: string }) {
 const newRole = formData.get("role") as string;
 
     if (newRole) {
-      await update({ role: newRole });
-    
+      // await update({ role: newRole });
+      await signOut({ redirect: false });
+      await signIn(
+        "credentials",
+        { email , redirect: false },
+
+      );
+     
     }
   };
 

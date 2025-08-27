@@ -16,7 +16,6 @@ export async function middleware(request: NextRequest) {
   
 
 
-
   if (token?.role) {
     if(!token && protectedRoutes){
       return NextResponse.redirect('/');

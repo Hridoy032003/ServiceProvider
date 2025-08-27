@@ -4,14 +4,14 @@ import { db } from '@/utils/db';
 import React from 'react'
 
 const page = async ({ params }: { params: Promise<{ slug: string }> }) => {
-   const { slug } = await params;
+   const { slug } =await  params;
   const services= await db.service.findMany(
     {
       where: {
         serviceProviderId: slug
       }
     }
-  );
+  );  
 const formattedServices = services.map((service) => ({
   ...service,
   price: service.price,

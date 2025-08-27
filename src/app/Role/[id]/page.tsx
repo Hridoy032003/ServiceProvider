@@ -25,7 +25,7 @@ export default async function ChooseRolePage(){
         How will you be using our platform, {session.user.name}?
       </p>
 
-      <RoleSelectionGrid userId={session.user.id} />
+      <RoleSelectionGrid userId={session.user.id} email={session.user.email || ""}/>
     </div>
   );
 }

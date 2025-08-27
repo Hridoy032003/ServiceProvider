@@ -48,30 +48,21 @@ export async function createBooking(formData: FormData): Promise<{ success: bool
       result.data;
 
   
-    const existingBooking = await db.booking.findFirst({
-      where: {
-        userId: session.user.id,
-        serviceProviderId: providerId,
-        startTime: startTime,
+    const clash = await db.booking.findFirst({
+  where: {
+    serviceProviderId: providerId,
+    startTime,
+    date,
+    status: { not: "cancel" }
+  }
+});
 
-        date: date,
-        status: {
-          not: "cancel",
-        },
-       
-    
-  }})
-    console.log(" existingBooking", existingBooking);
+if (clash) {
+  return { success: false, error: "Slot is unavailable" };
+}
 
  
-    if (existingBooking) {
-    
-      if (existingBooking.status === "pending" || existingBooking.status === "confrimd") {
-        return { success: false, error: "This time slot is already booked or pending." };
-      }
-      
-     
-    }
+   
 
     await db.booking.create({
       data: {

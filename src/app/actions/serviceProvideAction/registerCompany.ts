@@ -3,7 +3,7 @@
 import { z } from "zod";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/utils/db";
-import { toast } from "react-toastify";
+
 import { redirect } from "next/navigation";
 
 
@@ -34,8 +34,7 @@ const companySchema = z.object({
       throw new Error("You must be logged in to perform this action.");
     }
     if(!session.user.hasAccess){
-      
-      toast.error("Please pay For that service.");
+    
       redirect(`suscribe/${session.user.id}`);
     }
   
