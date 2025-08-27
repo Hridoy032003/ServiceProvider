@@ -4,7 +4,7 @@ import { db } from '@/utils/db';
 import Stripe from 'stripe';
 
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+const stripe = new Stripe("process.env.STRIPE_SECRET_KEY!");
 const webhookSecret = process.env.STRIPE_WEBHOOCK_SECRET!;
 
 export async function POST(req: Request) {
